@@ -17,10 +17,9 @@ def hello_world():
 @app.route('/addevent', methods=['POST'])
 def add_event():
     event = {
-        "name": request.form["name"],
-        "location": request.form["location"],
-        #"time": request.form["time"]
     }
+    for i in request.form.keys():
+        event[i]= request.form[i]
     try:
         post_id = collection.insert_one(event).inserted_id
     except:
