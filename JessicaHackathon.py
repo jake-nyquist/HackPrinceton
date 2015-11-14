@@ -19,9 +19,9 @@ def event_detail(eventID):
 def upvote(eventID):
     return 'upvote: ' + str(eventID)
 
-@app.route('/upvote/<int:eventID>')
-def upvote(eventID):
-    return 'upvote: ' + str(eventID)
+@app.route('/findevents/')
+def find_events():
+    return 'upvote: ' + str()
 
 @app.route('/report/<int:eventID>')
 def report(eventID):
