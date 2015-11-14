@@ -1,19 +1,41 @@
 from flask import Flask
+from flask import request
+from pymongo import MongoClient
+import json
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
+client = MongoClient("jessmongodb.cloudapp.net", 27017)
+db = client.Princeton
+collection = db["events"]
 
 @app.route('/')
 def hello_world():
     return 'Hello World!'
 
-@app.route('/addevent')
+@app.route('/addevent', methods=['POST'])
 def add_event():
-    return 'This will eventually add an event'
+    event = {
+        "name": request.form["name"],
+        "location": request.form["location"],
+        #"time": request.form["time"]
+    }
+    try:
+        post_id = collection.insert_one(event).inserted_id
+    except:
+        return "Exception"
+    return 'This will eventually add an event' + str(post_id)
 
-@app.route('/eventdetails/<int:eventID>')
+@app.route('/eventdetails/<eventID>')
 def event_detail(eventID):
-    return 'findEvent: ' + str(eventID)
+    try:
+        details = collection.find_one({'_id': ObjectId(eventID)})
+        details["_id"] = str(details["_id"])
+        return str(json.dumps(details))
+    except:
+        return "{}"
+
 
 @app.route('/upvote/<int:eventID>')
 def upvote(eventID):
