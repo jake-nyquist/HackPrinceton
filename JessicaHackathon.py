@@ -12,7 +12,7 @@ collection = db["events"]
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return 'Hi World!'
 
 @app.route('/addevent', methods=['POST'])
 def add_event():
