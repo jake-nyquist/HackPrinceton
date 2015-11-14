@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from pymongo import MongoClient
 import json
+from dateutil import parser
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
@@ -18,8 +19,19 @@ def hello_world():
 def add_event():
     event = {
     }
+    lat= 0
+    long = 0
     for i in request.form.keys():
-        event[i]= request.form[i]
+        if i== "lat":
+            lat = int(request.form[i])
+        elif i== "long":
+            long = int(request.form[i])
+        elif i=="time":
+            time = parser.parse(request.form[i])
+            event["time"] = time.total_seconds()
+        else:
+            event[i]= request.form[i]
+    event["location"] = [lat,long]
     try:
         post_id = collection.insert_one(event).inserted_id
     except:
@@ -40,13 +52,15 @@ def event_detail(eventID):
 def upvote(eventID):
     return 'upvote: ' + str(eventID)
 
+@app.route('/report/<int:eventID>')
+def report(eventID):
+    return 'report: ' + str(eventID)
+
 @app.route('/findevents/')
 def find_events():
     return 'upvote: ' + str()
 
-@app.route('/report/<int:eventID>')
-def report(eventID):
-    return 'report: ' + str(eventID)
+
 
 if __name__ == '__main__':
     app.run()
