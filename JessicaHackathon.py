@@ -8,6 +8,8 @@ from bson import timestamp
 from bson.son import SON
 from dateutil import parser
 import time
+
+
 parser.parse("Tue May 08 15:14:45 +0800 2012")
 app = Flask(__name__)
 
@@ -66,18 +68,19 @@ def report(eventID):
     result = collection.update_one({'_id': ObjectId(eventID)}, {"$set": {"visible": False}})
     return 'report: ' + str(eventID)
 
-@app.route('/findevents/', methods=["POST"])
-def find_events():
-    lat = float(request.form["lat"])
-    long = float(request.form["long"])
-    limit = int(request.form["limit"])
+@app.route('/findevents/<int:limit>', methods=["GET","POST"])
+def find_events(limit):
+    # lat = float(request.form["lat"])
+    # long = float(request.form["long"])
+    # limit = int(request.form["limit"])
     results = collection.find().limit(limit)
     res = []
     for rest in results:
+        print rest
         rest["_id"] = str(rest["_id"])
         rest["time"] = str(rest["time"].as_datetime().isoformat())
         res.append(rest)
-    return render_template('hello.html', results = res)
+    return render_template('index.html', rest = res)
 
 
 
