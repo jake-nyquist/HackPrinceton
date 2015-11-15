@@ -3,10 +3,10 @@
 <div>
 <ul class="list-group">
     {% for x in rest %}
-        <a href="/eventdetails/{{ x["_id"] }}"><li class="list-group-item">
-            <span class="badge">{{ x["upvotes"] }}</span>
-                {{ x["name"] }}
-        </li></a>
+        <li class="list-group-item">
+            <span class="badge"><{{ x["upvotes"] }}</span>
+                <a href="/eventdetails/{{ x["_id"] }}">{{ x["name"] }}</a>
+        </li>
     {% endfor %}
 </ul>
 </div>

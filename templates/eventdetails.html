@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% if flag %}
+    <h1>
+    {{ det["name"] }}
+    </h1>
+    {% else %}
+    Event details not found
+    {% endif %}
+{% endblock %}

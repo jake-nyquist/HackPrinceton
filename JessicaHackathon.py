@@ -22,6 +22,11 @@ collection.create_index([("location", GEOSPHERE)])
 def hello_world():
     return redirect(url_for('static'), "index.html")
 
+@app.route("/addeventform")
+def event_form():
+    return render_template("eventform.html")
+
+
 @app.route('/addevent', methods=['POST'])
 def add_event():
     event = {
@@ -53,9 +58,9 @@ def event_detail(eventID):
         details = collection.find_one({'_id': ObjectId(eventID)})
         details["_id"] = str(details["_id"])
         details["time"] = str(details["time"].as_datetime().isoformat())
-        return str(json.dumps(details))
+        return render_template("eventdetails.html", det = details, flag = True)
     except:
-        return "{}"
+        return render_template("eventdetails.html", det = None, flag = True)
 
 
 @app.route('/upvote/<eventID>')
@@ -68,8 +73,9 @@ def report(eventID):
     result = collection.update_one({'_id': ObjectId(eventID)}, {"$set": {"visible": False}})
     return 'report: ' + str(eventID)
 
+@app.route('/findevents/')
 @app.route('/findevents/<int:limit>', methods=["GET","POST"])
-def find_events(limit):
+def find_events(limit = 10):
     # lat = float(request.form["lat"])
     # long = float(request.form["long"])
     # limit = int(request.form["limit"])
