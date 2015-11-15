@@ -2,14 +2,39 @@
 {% block body %}
     <div>
     <form action="/addevent" method="post">
-        Event Name: <input type="text" name="name"><br>
+
+        <div class="input-group input-group-lg">
+  <span class="input-group-addon" id="basic-addon1">What?</span>
+  <input type="text" class="form-control" placeholder="Event Name" aria-describedby="basic-addon1" name="name">
+</div>
+        <div class="input-group">
+  <span class="input-group-addon" id="basic-addon1">When?</span>
+  <input type="text" class="form-control" placeholder="Time and Date" aria-describedby="basic-addon1" name="time">
+</div>
+        <div class="input-group">
+  <span class="input-group-addon" id="basic-addon1">Where?</span>
+  <input type="text" class="form-control" placeholder="Location" aria-describedby="basic-addon1" name="location">
+</div>
+        <div class="input-group">
+  <span class="input-group-addon" id="basic-addon1">Host:</span>
+  <input type="text" class="form-control" placeholder="Group or Sponsor" aria-describedby="basic-addon1" name="name">
+</div>
+        <div class="input-group">
+  <span class="input-group-addon" id="basic-addon1">Entry?</span>
+  <input type="text" class="form-control" placeholder="PUID, tickets, etc." aria-describedby="basic-addon1" name="entry">
+</div>
+        <div class="input-group">
+  <span class="input-group-addon" id="basic-addon1">More Info:</span>
+  <input type="text" class="form-control"  aria-describedby="basic-addon1" name="more">
+</div>
+
         Sponsor: <input type="text" name="sponsor"><br>
         Latitude: <input type="text" name="lat"><br>
         Longitude: <input type="text" name="long"><br>
         Time: <input type="text" name="time"><br>
         Entry Form: <input type="text" name="entry"><br>
         Event Description: <input type="text" name="more"><br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Add Event">
     </form>
     </div>
     <div>
