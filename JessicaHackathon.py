@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request
+from flask import request, redirect, url_for, render_template
 from pymongo import MongoClient, GEOSPHERE
 import json
 from dateutil import parser
@@ -18,7 +18,7 @@ collection.create_index([("location", GEOSPHERE)])
 
 @app.route('/')
 def hello_world():
-    return 'Hi World!'
+    return redirect(url_for('static'), "index.html")
 
 @app.route('/addevent', methods=['POST'])
 def add_event():
@@ -74,11 +74,10 @@ def find_events():
     results = collection.find().limit(limit)
     res = []
     for rest in results:
-        print rest
         rest["_id"] = str(rest["_id"])
         rest["time"] = str(rest["time"].as_datetime().isoformat())
         res.append(rest)
-    return str(json.dumps(res))
+    return render_template('hello.html', results = res)
 
 
 
