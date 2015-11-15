@@ -4,7 +4,9 @@ from pymongo import MongoClient
 import json
 from dateutil import parser
 from bson.objectid import ObjectId
-
+from bson import timestamp
+from dateutil import parser
+parser.parse("Tue May 08 15:14:45 +0800 2012")
 app = Flask(__name__)
 
 client = MongoClient("jessmongodb.cloudapp.net", 27017)
@@ -28,7 +30,7 @@ def add_event():
             long = int(request.form[i])
         elif i=="time":
             time = parser.parse(request.form[i])
-            event["time"] = time.total_seconds()
+            event["time"] = timestamp.Timestamp(time,0)
         else:
             event[i]= request.form[i]
     event["location"] = [lat,long]
@@ -43,6 +45,7 @@ def event_detail(eventID):
     try:
         details = collection.find_one({'_id': ObjectId(eventID)})
         details["_id"] = str(details["_id"])
+        details["time"] = str(details["time"].as_datetime().isoformat())
         return str(json.dumps(details))
     except:
         return "{}"
