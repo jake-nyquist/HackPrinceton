@@ -34,6 +34,7 @@ def add_event():
         else:
             event[i]= request.form[i]
     event["location"] = [lat,long]
+    event["upvotes"] = 0
     try:
         post_id = collection.insert_one(event).inserted_id
     except:
