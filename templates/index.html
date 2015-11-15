@@ -4,7 +4,7 @@
 <ul class="list-group">
     {% for x in rest %}
         <li class="list-group-item">
-            <span class="badge"><{{ x["upvotes"] }}</span>
+            <a href="/upvote/{{ x["_id"] }}"><span class="badge">{{ x["upvotes"] }}</span></a>
                 <a href="/eventdetails/{{ x["_id"] }}">{{ x["name"] }}</a>
         </li>
     {% endfor %}

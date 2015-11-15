@@ -1,18 +1,63 @@
-{% extends "layout.html" %}
-{% block body %}
-    <div>
-    <form action="/addevent" method="post">
-        Event Name: <input type="text" name="name"><br>
-        Sponsor: <input type="text" name="sponsor"><br>
-        Latitude: <input type="text" name="lat"><br>
-        Longitude: <input type="text" name="long"><br>
-        Time: <input type="text" name="time"><br>
-        Entry Form: <input type="text" name="entry"><br>
-        Event Description: <input type="text" name="more"><br>
-        <input type="submit" value="Submit">
-    </form>
-    </div>
-    <div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Place Autocomplete</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+.controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+.pac-container {
+  font-family: Roboto;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+    </style>
+  </head>
+  <body>
     <input id="pac-input" class="controls" type="text"
         placeholder="Enter a location">
     <div id="type-selector" class="controls">
@@ -107,71 +152,7 @@ function initMap() {
 }
 
     </script>
-    </div>
-{% endblock %}
-{% block scripts %}
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNBc_1dtpDrEQoVf0apLJuYkND1a6Cplc&signed_in=true&libraries=places&callback=initMap"
         async defer></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNBc_1dtpDrEQoVf0apLJuYkND1a6Cplc&libraries=places"></script>
-    <script type="text/javascript">
-        service = new google.maps.places.PlacesService(map);
-        service.textSearch(request, callback);
-
-    </script>
-{% endblock %}
-{% block head %}
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-.controls {
-  margin-top: 10px;
-  border: 1px solid transparent;
-  border-radius: 2px 0 0 2px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  height: 32px;
-  outline: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-
-#pac-input {
-  background-color: #fff;
-  font-family: Roboto;
-  font-size: 15px;
-  font-weight: 300;
-  margin-left: 12px;
-  padding: 0 11px 0 13px;
-  text-overflow: ellipsis;
-  width: 300px;
-}
-
-#pac-input:focus {
-  border-color: #4d90fe;
-}
-
-.pac-container {
-  font-family: Roboto;
-}
-
-#type-selector {
-  color: #fff;
-  background-color: #4d90fe;
-  padding: 5px 11px 0px 11px;
-}
-
-#type-selector label {
-  font-family: Roboto;
-  font-size: 13px;
-  font-weight: 300;
-}
-
-    </style>
-{% endblock %}
+  </body>
+</html>

@@ -66,7 +66,7 @@ def event_detail(eventID):
 @app.route('/upvote/<eventID>')
 def upvote(eventID):
     result = collection.update_one({'_id': ObjectId(eventID)}, {"$inc": {"upvotes": 1}})
-    return "{\"result\" : \"success\"}"
+    return redirect("/findevents")
 
 @app.route('/report/<eventID>')
 def report(eventID):
@@ -83,6 +83,7 @@ def find_events(limit = 10):
     res = []
     for rest in results:
         print rest
+        print rest['upvotes']
         rest["_id"] = str(rest["_id"])
         rest["time"] = str(rest["time"].as_datetime().isoformat())
         res.append(rest)
