@@ -1,17 +1,20 @@
 from flask import Flask
 from flask import request
-from pymongo import MongoClient
+from pymongo import MongoClient, GEOSPHERE
 import json
 from dateutil import parser
 from bson.objectid import ObjectId
 from bson import timestamp
+from bson.son import SON
 from dateutil import parser
+import time
 parser.parse("Tue May 08 15:14:45 +0800 2012")
 app = Flask(__name__)
 
 client = MongoClient("jessmongodb.cloudapp.net", 27017)
 db = client.Princeton
 collection = db["events"]
+collection.create_index([("location", GEOSPHERE)])
 
 @app.route('/')
 def hello_world():
@@ -35,6 +38,7 @@ def add_event():
             event[i]= request.form[i]
     event["location"] = [lat,long]
     event["upvotes"] = 0
+    event["visible"] = True
     try:
         post_id = collection.insert_one(event).inserted_id
     except:
@@ -52,17 +56,29 @@ def event_detail(eventID):
         return "{}"
 
 
-@app.route('/upvote/<int:eventID>')
+@app.route('/upvote/<eventID>')
 def upvote(eventID):
-    return 'upvote: ' + str(eventID)
+    result = collection.update_one({'_id': ObjectId(eventID)}, {"$inc": {"upvotes": 1}})
+    return "{\"result\" : \"success\"}"
 
-@app.route('/report/<int:eventID>')
+@app.route('/report/<eventID>')
 def report(eventID):
+    result = collection.update_one({'_id': ObjectId(eventID)}, {"$set": {"visible": False}})
     return 'report: ' + str(eventID)
 
-@app.route('/findevents/')
+@app.route('/findevents/', methods=["POST"])
 def find_events():
-    return 'upvote: ' + str()
+    lat = float(request.form["lat"])
+    long = float(request.form["long"])
+    limit = int(request.form["limit"])
+    results = collection.find().limit(limit)
+    res = []
+    for rest in results:
+        print rest
+        rest["_id"] = str(rest["_id"])
+        rest["time"] = str(rest["time"].as_datetime().isoformat())
+        res.append(rest)
+    return str(json.dumps(res))
 
 
 
